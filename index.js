@@ -1,3 +1,4 @@
+// importer les dependances
 require("dotenv").config();
 const express = require("express");
 const axios = require("axios");
@@ -5,14 +6,18 @@ const cors = require("cors");
 
 const app = express();
 
+// on oublie pas les cors pour pouvoir faire des requettes
 app.use(cors());
 
+//app doit pouvoir lire-renvoyer des json
 app.use(express.json());
 
+//premiere route générale
 app.get("/", (req, res) => {
   res.json({ message: "Coucou, ceci est mon serveur Marvel:)" });
 });
 
+//voir tous les personnages
 app.get("/characters", async (req, res) => {
   try {
     const response = await axios.get(
@@ -24,6 +29,7 @@ app.get("/characters", async (req, res) => {
   }
 });
 
+//voir tous les comics
 app.get("/comics", async (req, res) => {
   try {
     const response = await axios.get(
@@ -62,6 +68,21 @@ app.get("/characters/:id", async (req, res) => {
       error.response ? error.response.status : error.message
     );
     res.status(500).json({ error: "Personnage introuvable" });
+  }
+});
+
+app.get("/comics/:id", async (req, res) => {
+  try {
+    const response = await axios.get(
+      `${process.env.BASE_URL}/comics/${req.params.id}?apiKey=${process.env.API_KEY}`
+    );
+    res.json(response.data);
+  } catch (error) {
+    console.error(
+      "Error GET /comics/:id",
+      error.response ? error.response.status : error.message
+    );
+    res.status(500).json({ error: "Comic introuvable" });
   }
 });
 
