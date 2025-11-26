@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.json({ message: "Coucou, ceci est mon serveur Vinted :)" });
+  res.json({ message: "Coucou, ceci est mon serveur Marvel:)" });
 });
 
 app.get("/characters", async (req, res) => {
