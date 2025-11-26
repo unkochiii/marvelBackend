@@ -38,7 +38,7 @@ app.get("/comics", async (req, res) => {
 app.get("/comics/:id", async (req, res) => {
   try {
     const response = await axios.get(
-      `${process.env.BASE_URL}/comics/${req.params.id}?apiKey=${process.env.API_KEY}`
+      `${process.env.BASE_URL}/comic/${req.params.id}?apiKey=${process.env.API_KEY}`
     );
     res.json(response.data);
   } catch (error) {
