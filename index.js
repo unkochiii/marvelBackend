@@ -41,7 +41,7 @@ app.get("/comics", async (req, res) => {
   }
 });
 
-app.get("/comics/:id", async (req, res) => {
+app.get("/comic/:id", async (req, res) => {
   try {
     const response = await axios.get(
       `${process.env.BASE_URL}/comic/${req.params.id}?apiKey=${process.env.API_KEY}`
@@ -56,7 +56,7 @@ app.get("/comics/:id", async (req, res) => {
   }
 });
 
-app.get("/characters/:id", async (req, res) => {
+app.get("/character/:id", async (req, res) => {
   try {
     const response = await axios.get(
       `${process.env.BASE_URL}/character/${req.params.id}?apiKey=${process.env.API_KEY}`
