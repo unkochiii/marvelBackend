@@ -42,6 +42,10 @@ app.get("/comics/:id", async (req, res) => {
     );
     res.json(response.data);
   } catch (error) {
+    console.error(
+      "Error GET /comics/:id",
+      error.response ? error.response.status : error.message
+    );
     res.status(500).json({ error: "Comic introuvable" });
   }
 });
@@ -49,10 +53,14 @@ app.get("/comics/:id", async (req, res) => {
 app.get("/characters/:id", async (req, res) => {
   try {
     const response = await axios.get(
-      `${process.env.BASE_URL}/characters/${req.params.id}?apiKey=${process.env.API_KEY}`
+      `${process.env.BASE_URL}/character/${req.params.id}?apiKey=${process.env.API_KEY}`
     );
     res.json(response.data);
   } catch (error) {
+    console.error(
+      "Error GET /characters/:id",
+      error.response ? error.response.status : error.message
+    );
     res.status(500).json({ error: "Personnage introuvable" });
   }
 });
