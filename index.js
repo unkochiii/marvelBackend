@@ -6,7 +6,7 @@ const cors = require("cors");
 
 const app = express();
 
-// on oublie pas les cors pour pouvoir faire des requettes
+// on oublie pas les cors pour pouvoir faire des requettes sans pb
 app.use(cors());
 
 //app doit pouvoir lire-renvoyer des json
@@ -20,8 +20,12 @@ app.get("/", (req, res) => {
 //voir tous les personnages
 app.get("/characters", async (req, res) => {
   try {
+    const name = req.query.name || "";
+    const skip = req.query.skip || 0;
+    const limit = req.query.limit || 100;
+
     const response = await axios.get(
-      `${process.env.BASE_URL}/characters?apiKey=${process.env.API_KEY}`
+      `${process.env.BASE_URL}/characters?apiKey=${process.env.API_KEY}&name=${name}&skip=${skip}&limit=${limit}`
     );
     res.json(response.data);
   } catch (error) {
@@ -32,8 +36,11 @@ app.get("/characters", async (req, res) => {
 //voir tous les comics
 app.get("/comics", async (req, res) => {
   try {
+    const name = req.query.name || "";
+    const skip = req.query.skip || 0;
+    const limit = req.query.limit || 100;
     const response = await axios.get(
-      `${process.env.BASE_URL}/comics?apiKey=${process.env.API_KEY}`
+      `${process.env.BASE_URL}/comics?apiKey=${process.env.API_KEY}&name=${name}&skip=${skip}&limit=${limit}`
     );
     res.json(response.data);
   } catch (error) {
@@ -41,6 +48,7 @@ app.get("/comics", async (req, res) => {
   }
 });
 
+//voir toutes les infos d'un comic
 app.get("/comic/:id", async (req, res) => {
   try {
     const response = await axios.get(
@@ -56,6 +64,7 @@ app.get("/comic/:id", async (req, res) => {
   }
 });
 
+//voir toutes les infos d'un personnage
 app.get("/character/:id", async (req, res) => {
   try {
     const response = await axios.get(
@@ -71,6 +80,7 @@ app.get("/character/:id", async (req, res) => {
   }
 });
 
+//voir tous les comics contenant un personnage
 app.get("/comics/:id", async (req, res) => {
   try {
     const response = await axios.get(
@@ -86,6 +96,7 @@ app.get("/comics/:id", async (req, res) => {
   }
 });
 
+//route si rien
 app.all(/.*/, (req, res) => {
   res.status(404).json({ message: "This route does not exist" });
 });
