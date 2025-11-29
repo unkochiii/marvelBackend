@@ -20,9 +20,15 @@ app.get("/characters", async (req, res) => {
     const skip = req.query.skip || 0;
     const limit = req.query.limit || 100;
 
-    const response = await axios.get(
-      `${process.env.BASE_URL}/characters?apiKey=${process.env.API_KEY}&skip=${skip}&limit=${limit}`
-    );
+    const response = await axios.get(`${process.env.BASE_URL}/characters`, {
+      params: {
+        apiKey: process.env.API_KEY,
+        skip: skip,
+        limit: limit,
+        ...(name && { name: name }), // Ajoute name seulement s'il existe
+      },
+    });
+
     res.json(response.data);
   } catch (error) {
     res.status(500).json({ error: "Personnages introuvables" });
@@ -32,12 +38,19 @@ app.get("/characters", async (req, res) => {
 //voir tous les comics
 app.get("/comics", async (req, res) => {
   try {
-    const name = req.query.name || "";
+    const title = req.query.title || "";
     const skip = req.query.skip || 0;
     const limit = req.query.limit || 100;
-    const response = await axios.get(
-      `${process.env.BASE_URL}/comics?apiKey=${process.env.API_KEY}&skip=${skip}&limit=${limit}`
-    );
+
+    const response = await axios.get(`${process.env.BASE_URL}/comics`, {
+      params: {
+        apiKey: process.env.API_KEY,
+        skip: skip,
+        limit: limit,
+        ...(title && { title: title }), // Ajoute title seulement s'il existe
+      },
+    });
+
     res.json(response.data);
   } catch (error) {
     res.status(500).json({ error: "Comics introuvables" });
