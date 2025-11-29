@@ -5,11 +5,7 @@ const axios = require("axios");
 const cors = require("cors");
 
 const app = express();
-
-// on oublie pas les cors pour pouvoir faire des requettes sans pb
 app.use(cors());
-
-//app doit pouvoir lire-renvoyer des json
 app.use(express.json());
 
 //premiere route générale
@@ -25,7 +21,7 @@ app.get("/characters", async (req, res) => {
     const limit = req.query.limit || 100;
 
     const response = await axios.get(
-      `${process.env.BASE_URL}/characters?apiKey=${process.env.API_KEY}&name=${name}&skip=${skip}&limit=${limit}`
+      `${process.env.BASE_URL}/characters?apiKey=${process.env.API_KEY}&skip=${skip}&limit=${limit}`
     );
     res.json(response.data);
   } catch (error) {
@@ -40,7 +36,7 @@ app.get("/comics", async (req, res) => {
     const skip = req.query.skip || 0;
     const limit = req.query.limit || 100;
     const response = await axios.get(
-      `${process.env.BASE_URL}/comics?apiKey=${process.env.API_KEY}&name=${name}&skip=${skip}&limit=${limit}`
+      `${process.env.BASE_URL}/comics?apiKey=${process.env.API_KEY}&skip=${skip}&limit=${limit}`
     );
     res.json(response.data);
   } catch (error) {
